@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Citas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0044cc;
+            padding: 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #002a80;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #0044cc;
+            color: white;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+        }
+
+        .filters form select,
+        .filters form input[type="date"],
+        .filters form button {
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .filters form button {
+            background-color: #0044cc;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-registrar-cita {
+            padding: 10px 20px;
+            background-color: #0044cc;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .subsection-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+        }
+
+        .subsection-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .no-results {
+            text-align: center;
+            margin-top: 20px;
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Incluir el fragmento del header -->
+<div th:replace="Profesionales/header :: headerFragment"></div>
+<div class="container">
+    <h2>Lista de Citas Realizadas</h2>
+
+    <!-- Mensajes de error o éxito -->
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+    <div th:if="${success}" class="success">
+        <p th:text="${success}"></p>
+    </div>
+
+
+
+    <!-- Filtros -->
+    <div class="filters">
+        <form th:action="@{/citas/filtrar}" method="get">
+            <select name="profesional">
+                <option value="">Seleccionar Profesional</option>
+                <option value="Leonardo Campos">Leonardo Campos</option>
+                <option value="Ronald Boyer">Ronald Boyer</option>
+                <!-- Más opciones de profesionales -->
+            </select>
+
+            <select name="area">
+                <option value="">Seleccionar Área</option>
+                <option value="Psiquiatría">Psiquiatría</option>
+                <option value="Neurología">Neurología</option>
+                <!-- Más áreas -->
+            </select>
+
+            <input type="date" name="fecha">
+
+            <select name="riesgo">
+                <option value="">Seleccionar Riesgo</option>
+                <option value="Bajo">Bajo</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Alto">Alto</option>
+                <option value="Muy Alto">Muy Alto</option>
+            </select>
+
+            <select name="sede">
+                <option value="">Seleccionar Sede</option>
+                <option value="San Martín">San Martín</option>
+                <option value="Lima">Lima</option>
+                <!-- Más sedes -->
+            </select>
+
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+
+    <!-- Tabla de citas -->
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre del Paciente</th>
+            <th>DNI</th>
+            <th>Edad</th>
+            <th>Motivo de Consulta</th>
+            <th>Nombre del Profesional</th>
+            <th>Área</th>
+            <th>Fecha</th>
+            <th>Precio de Consulta</th>
+            <th>Riesgo de Salud</th>
+            <th>Sede</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cita : ${citas}">
+            <td th:text="${cita.paciente.nombre}">Carlos Vargas</td>
+            <td th:text="${cita.paciente.dni}">12345678</td>
+            <td th:text="${cita.paciente.edad}">30</td>
+            <td th:text="${cita.motivoConsulta}">Consulta por estrés</td>
+            <td th:text="${cita.profesional.nombre}">Leonardo Campos</td>
+            <td th:text="${cita.area}">Psiquiatría</td>
+            <td th:text="${cita.fecha}">25/09/2024</td>
+            <td th:text="${cita.precioConsulta}">S/150.00</td>
+            <td th:text="${cita.riesgoSalud}">Moderado</td>
+            <td th:text="${cita.sede}">Lima</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Mensaje si no se encuentran pacientes -->
+    <!--<p class="no-results" th:if="${citas.empty}">No se encontraron pacientes.</p>-->
+
+    <!-- Botón para registrar una nueva cita -->
+    <a th:href="@{/citas/registrar}" class="btn-registrar-cita">Registrar Cita</a>
+
+    <!-- Sub-sección informativa -->
+    <div class="subsection-info">
+        <h3>Estadísticas de Citas</h3>
+        <p>Número de citas totales por sede: <span th:text="${citasPorSede}">10</span></p>
+        <p>Número de citas totales por especialidad: <span th:text="${citasPorEspecialidad}">8</span></p>
+        <p>Número de citas totales por profesional: <span th:text="${citasPorProfesional}">5</span></p>
+    </div>
+</div>
+
+</body>
+</html>

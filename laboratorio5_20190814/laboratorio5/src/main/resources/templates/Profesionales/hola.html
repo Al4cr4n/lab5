@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cita</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form input[type="text"],
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form button {
+            padding: 10px 20px;
+            background-color: #0044cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Registrar Cita</h2>
+    <form th:action="@{/citas/reservar}" method="post">
+        <input type="text" name="nombre" placeholder="Nombre y apellido" required>
+        <input type="text" name="documentoIdentidad" placeholder="Documento de Identidad" required>
+        <input type="text" name="edad" placeholder="Edad o fecha de nacimiento" required>
+        <input type="text" name="motivoConsulta" placeholder="Motivo de consulta" required>
+
+        <select name="areaConsulta" required>
+            <option value="">Área de consulta</option>
+            <option value="Psiquiatría">Psiquiatría</option>
+            <option value="Neurología">Neurología</option>
+            <option value="Psicología">Psicología</option>
+            <option value="Terapia Ocupacional">Terapia Ocupacional</option>
+        </select>
+
+        <select name="profesional" required>
+            <option value="">Nombre del profesional</option>
+            <!-- Se pueden llenar dinámicamente con el objeto 'profesionales' -->
+        </select>
+
+        <select name="sede" required>
+            <option value="">Sede de atención</option>
+            <option value="San Martín">San Martín</option>
+            <option value="Lima">Lima</option>
+            <option value="Arequipa">Arequipa</option>
+            <option value="Trujillo">Trujillo</option>
+            <option value="Ayacucho">Ayacucho</option>
+        </select>
+
+        <input type="date" name="fechaConsulta" required>
+
+        <select name="riesgoSalud" required>
+            <option value="">Riesgo de salud</option>
+            <option value="Bajo">Bajo</option>
+            <option value="Moderado">Moderado</option>
+            <option value="Alto">Alto</option>
+            <option value="Muy Alto">Muy Alto</option>
+        </select>
+
+        <button type="submit">Reservar cita</button>
+    </form>
+</div>
+
+</body>
+</html>

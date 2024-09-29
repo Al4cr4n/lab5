@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recursos para Apoyo Emocional</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0044cc;
+            padding: 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #002a80;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        .stat {
+            font-weight: bold;
+        }
+
+        .note, .phrases {
+            margin-top: 20px;
+            background-color: #e0f7fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .phrases p {
+            font-style: italic;
+            color: #00695c;
+        }
+    </style>
+</head>
+<body>
+<!-- Incluir el fragmento del header -->
+<div th:replace="Profesionales/header :: headerFragment"></div>
+<div class="container">
+    <h2>Recursos para Apoyo Emocional</h2>
+
+    <!-- Canciones recomendadas -->
+    <div class="section">
+        <h3>Canciones recomendadas para escuchar cuando estás desanimado</h3>
+        <ul>
+            <li th:each="cancion : ${cancionesRecomendadas}">
+                <span th:text="${cancion.titulo}">Canta - Vi-Em</span>
+            </li>
+        </ul>
+        <p class="stat">Total de canciones recomendadas: <span th:text="${totalRecomendadas}">0</span></p>
+    </div>
+
+    <!-- Canciones no recomendadas -->
+    <div class="section">
+        <h3>Canciones no recomendadas para escuchar cuando estás desanimado</h3>
+        <ul>
+            <li th:each="cancion : ${cancionesNoRecomendadas}">
+                <span th:text="${cancion.titulo}">Bugambilia - Nasa Histories</span>
+            </li>
+        </ul>
+        <p class="stat">Total de canciones no recomendadas: <span th:text="${totalNoRecomendadas}">0</span></p>
+    </div>
+
+    <!-- Nota sobre salud mental -->
+    <div class="note">
+        <h3>Nota sobre la salud mental en el país</h3>
+        <p>En muchos países, la salud mental sigue siendo un tema que no recibe la atención suficiente. Es importante recordar que buscar ayuda no es una señal de debilidad, sino de fortaleza. Si te sientes abrumado, habla con alguien de confianza o busca ayuda profesional.</p>
+    </div>
+
+    <!-- Frases de ánimo -->
+    <div class="phrases">
+        <h3>Frases de ánimo</h3>
+        <p>"Mientras haya vida, hay esperanza."</p>
+        <p>"Tercera Ley de Newton: La única manera de que los humanos descubran cómo llegar a algún lado, es dejando algo atrás."</p>
+    </div>
+</div>
+
+</body>
+</html>

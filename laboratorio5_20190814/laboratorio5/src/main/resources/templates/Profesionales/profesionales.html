@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Profesionales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #0044cc;
+            padding: 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav ul li a:hover {
+            background-color: #002a80;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters select,
+        .filters input[type="date"],
+        .filters button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .filters button {
+            background-color: #0044cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .filters button:hover {
+            background-color: #002a80;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .card h3 {
+            margin: 15px 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .card p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .card .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 15px;
+            background-color: #0044cc;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .card .button:hover {
+            background-color: #002a80;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Incluir el fragmento del header -->
+<div th:replace="Profesionales/header :: headerFragment"></div>
+
+<div class="container">
+    <!-- Filtros de búsqueda -->
+    <div class="filters">
+        <form th:action="@{/profesionales/filtrar}" method="get">
+
+            <select name="area">
+                <option value="">Selecciona un área</option>
+                <option value="Psiquiatría">Psiquiatría</option>
+                <option value="Neurología">Neurología</option>
+                <option value="Psicología">Psicología</option>
+                <option value="Terapia Ocupacional">Terapia Ocupacional</option>
+            </select>
+
+            <select name="sede">
+                <option value="">Selecciona una sede</option>
+                <option value="San Martín">San Martín</option>
+                <option value="Lima">Lima</option>
+                <option value="Ayacucho">Ayacucho</option>
+                <option value="Arequipa">Arequipa</option>
+                <option value="Trujillo">Trujillo</option>
+                <!-- Agregar más opciones según las sedes -->
+            </select>
+
+            <input type="date" name="fecha">
+            <button type="submit">Filtrar</button>
+        </form>
+    </div>
+
+    <!-- Lista de profesionales (cards) -->
+    <div class="card-container">
+        <div class="card" th:each="profesional : ${profesionales}">
+            <img th:src="@{'/images/' + ${profesional.imagen}}" alt="Imagen de Profesional">
+            <h3 th:text="${profesional.nombre}">Nombre del profesional</h3>
+            <p th:text="${profesional.area.nombreArea}">Área</p>
+            <p th:each="fecha : ${profesional.fechas}" th:text="${fecha.fechaDisponibilidad}">Fecha Disponible</p>
+            <p th:text="${profesional.sede.nombreSede}">Sede</p>
+            <p th:text="${profesional.descripcionProfesional}">Descripción del profesional</p>
+            <a th:href="@{/profesionales/registrar}" class="button">Registrar cita</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
